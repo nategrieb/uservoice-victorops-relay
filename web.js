@@ -7,7 +7,16 @@ app.use(express.bodyParser());
 
 app.post('/', function(req, res) {
   console.log(req.body);
-  var victorOpsJSON = { message_type:"CRITICAL", timestamp:"1383239337", entity_id:"disk space/db01.mycompany.com", state_message:"the disk is really really full" };
+
+  var payload = JSON.parse(req.body);
+  var entity_id = payload.data.ticket.id;
+  var subject = payload.data.ticket.subject;
+
+  var victorOpsJSON = { message_type:"CRITICAL", 
+	entity_id:entity_id,
+	state_message:subject
+  };
+
   var victorOpsString = JSON.stringify(victorOpsJSON);
 
   var headers = {
