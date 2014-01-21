@@ -1,11 +1,50 @@
 var express = require("express");
 var app = express();
+var http = require("http");
+var https = require("https");
 
 app.use(express.bodyParser());
 
 app.post('/', function(req, res) {
   console.log(req.body);
-  res.send(req.body);
+  var victorOpsJSON = { message_type:"CRITICAL", timestamp:"1383239337", entity_id:"disk space/db01.mycompany.com", state_message:"the disk is really really full" };
+  var victorOpsString = JSON.stringify(victorOpsJSON);
+
+  var headers = {
+    'Content-Type': 'application/json',
+    'Content-Length': victorOpsString.length
+  };
+
+  var options = {
+          host: 'alert.victorops.com',
+          port: 443,
+          path: '/integrations/generic/20131114/alert/33aba56f-fc78-4c65-9c6d-57a49cbb6ed8/uservoicetest',
+          method: 'POST',
+	  headers: headers
+        };
+  var remote_request = https.request(options, function(remote_response) {
+    remote_response.setEncoding('utf-8');
+
+    var responseString = '';
+
+    remote_response.on('data', function(data) {
+      responseString += data;
+    });
+
+    remote_response.on('end', function() {
+      var resultObject = JSON.parse(responseString);
+      console.log(resultObject);
+      res.send(resultObject);
+    });
+  });
+
+  remote_request.on('error', function(e) {
+    console.log(e);
+  });
+
+  remote_request.write(victorOpsString);
+  remote_request.end();
+
 });
 
 var port = process.env.PORT || 5000;
