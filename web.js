@@ -13,7 +13,7 @@ for(var prop in req.body){
 }
   var payload = JSON.parse(req.body.data);
   var entity_id = payload.ticket.id;
-  var subject = payload.data.ticket.subject;
+  var subject = payload.ticket.subject;
   //var entity_id = "hbal";
   //var subject = "subject";
 
