@@ -21,7 +21,7 @@ for(var prop in req.body){
 	entity_id:entity_id,
 	state_message:subject,
 	monitoring_tool: monitoring_tool,
-	entity_display_name: subject
+	entity_display_name: entity_display_name
   };
 
   var victorOpsString = JSON.stringify(victorOpsJSON);
