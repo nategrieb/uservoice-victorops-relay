@@ -8,9 +8,6 @@ app.use(express.bodyParser());
 app.post('/', function(req, res) {
   console.log(req.body);
 
-for(var prop in req.body){
-	console.log(prop + " = " + req.body[prop]);
-}
   var payload = JSON.parse(req.body.data);
   var entity_id = payload.ticket.id;
   var subject = payload.ticket.subject;
