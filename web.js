@@ -14,6 +14,7 @@ for(var prop in req.body){
   var payload = JSON.parse(req.body.data);
   var entity_id = payload.ticket.id;
   var subject = payload.ticket.subject;
+  var entity_display_name = "Ticket " + payload.ticket.ticket_number;
   var monitoring_tool = "UserVoice";
 
   var victorOpsJSON = { message_type:"CRITICAL", 
